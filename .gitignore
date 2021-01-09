@@ -1,0 +1,10 @@
+.env
+/secure-connect-nwhax-database.zip
+.idea/.gitignore
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/nwHacks2021.iml
+.idea/sqldialects.xml
+.idea/vcs.xml
+venv/
