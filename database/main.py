@@ -4,7 +4,7 @@ import json
 import datetime
 import logging
 from string import Template
-from database import populartimes
+import populartimes
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 # from dotenv import load_dotenv
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     # query = "restaurant"
     # fields = "place_id,photos,formatted_address,name,opening_hours,rating"
     # google_query_places(query=query, fields=fields)
-    main('data', 'context')
+    # main('data', 'context')
 
     # uncomment to run locally
-    # execute_update()
+    execute_update()
