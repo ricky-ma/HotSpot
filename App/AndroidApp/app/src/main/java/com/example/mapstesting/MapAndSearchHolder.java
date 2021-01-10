@@ -99,7 +99,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
          if live, just set average parameter to "false"
          otherwise, set average to true, get dayOfWeek and hour from user to pass in
         ****/ 
-        List<WeightedLatLng> points = parseRestaurants(exList, false, 0, 0);
+        List<WeightedLatLng> points = parseRestaurants(exList, true, 0, 0);
         if (!points.isEmpty()) {
             HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
                     .radius(50)
@@ -110,7 +110,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
 
         // display all the restaurants
         for (Restaurant r : exList) {
-            if (r.getCurrent_popularity() > 75) {
+            if (r.getCurrent_popularity() > 25) {
                 LatLng point = new LatLng(r.getLat(), r.getLng());
                 map.addMarker(new MarkerOptions().position(point).title(r.getName()));
             }
@@ -148,7 +148,10 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
                     default:
                         break;
                 }
-                int busyness = busyTimes.get(hour);
+                int busyness = 0;
+                if (busyTimes.size() != 0) {
+                    busyness = busyTimes.get(hour);
+                }
                 LatLng pos = new LatLng(rest.getLat(), rest.getLng());
                 outputList.add(new WeightedLatLng(pos, busyness));
             }
@@ -183,36 +186,36 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
 
     public void openSettings(View view) {
         Intent intent = new Intent(this, ExtraSettings.class);
-        startActivityForResult(intent, 1);
+//        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                int day = data.getIntExtra("dayOfWeek", 1);
-                int hour = data.getIntExtra("hour", 1);
-                boolean avg = data.getBooleanExtra("avg", false);
-                resetMap(avg, day, hour);
-            }
-            if (resultCode == RESULT_CANCELED) {
-                return;
-            }
-        }
-    }
-
-    public void resetMap(boolean avg, int dayOfWeek, int hour) {
-        if (heatmap != null) {
-            heatmap.remove();
-        }
-        List<WeightedLatLng> points = parseRestaurants(exList, avg, dayOfWeek, hour);
-        if (!points.isEmpty()) {
-            HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
-                    .radius(50)
-                    .weightedData(points)
-                    .build();
-            heatmap = map.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
-        }
-    }
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == 1) {
+//            if (resultCode == RESULT_OK) {
+//                int day = data.getIntExtra("dayOfWeek", 1);
+//                int hour = data.getIntExtra("hour", 1);
+//                boolean avg = data.getBooleanExtra("avg", false);
+//                resetMap(avg, day, hour);
+//            }
+//            if (resultCode == RESULT_CANCELED) {
+//                return;
+//            }
+//        }
+//    }
+//    public void resetMap(boolean avg, int dayOfWeek, int hour) {
+//        if (heatmap != null) {
+//            heatmap.remove();
+//        }
+//        List<WeightedLatLng> points = parseRestaurants(exList, avg, dayOfWeek, hour);
+//        if (!points.isEmpty()) {
+//            HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
+//                    .radius(50)
+//                    .weightedData(points)
+//                    .build();
+//            heatmap = map.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
+//        }
+//    }
 
     private class DatabaseConnectionHandler extends AsyncTask<Void, Void, Void> {
 
