@@ -1,5 +1,6 @@
 package com.example.mapstesting;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +23,25 @@ public class Restaurant {
     private final List<Integer> poptime_fri;
     private final List<Integer> poptime_sat;
     private final List<Integer> poptime_sun;
+
+    public Restaurant(String id) {
+        this.id = id;
+        this.name = "";
+        this.address = "";
+        this.types = Collections.emptyList();
+        this.lat = 0.;
+        this.lng = 0.;
+        this.rating = 0.;
+        this.rating_n = 0;
+        this.current_popularity = 0;
+        this.poptime_mon = Collections.emptyList();
+        this.poptime_tue = Collections.emptyList();
+        this.poptime_wed = Collections.emptyList();
+        this.poptime_thr = Collections.emptyList();
+        this.poptime_fri = Collections.emptyList();
+        this.poptime_sat = Collections.emptyList();
+        this.poptime_sun = Collections.emptyList();
+    }
 
     public Restaurant(String id, String name, String address, List<String> types, Double lat, Double lng,
                       Double rating, Integer rating_n, Integer current_popularity, List<Integer> poptime_mon,

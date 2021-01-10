@@ -1,8 +1,11 @@
 package com.example.mapstesting;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.JsonReader;
+import android.view.View;
+import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,8 +39,10 @@ import static java.lang.Integer.parseInt;
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mMapView;
-    private ArrayList<Restaurant> exList = new ArrayList<>();
+    private static String GOOGLE_API_KEY = "AIzaSyCHDoAJTYRv9yPKmuI_FVNlPZBS5hPXFEU";
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+    public static ArrayList<Restaurant> exList = new ArrayList<>();
+    public static final String EXTRA_MESSAGE = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,17 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         }
         mMapView = findViewById(R.id.mapView);
         mMapView.onCreate(mapViewBundle);
+//        GOOGLE_API_KEY = getResources().getString(R.string.google_maps_key);
         new DatabaseConnectionHandler().execute();
+    }
+
+    /** Called when the user taps the Send button */
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, Page2List.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, EXTRA_MESSAGE + message + "&inputtype=textquery&fields=place_id&locationbias=circle:2000@49.2827,-123.1207&key=" + GOOGLE_API_KEY);
+        startActivity(intent);
     }
 
     @Override
@@ -93,7 +108,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         add user input to toggle between live view and average view
          if live, just set average parameter to "false"
          otherwise, set average to true, get dayOfWeek and hour from user to pass in
-        ****/ 
+        ****/
         List<WeightedLatLng> points = parseRestaurants(exList, false, 0, 0);
         if (!points.isEmpty()) {
             HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
