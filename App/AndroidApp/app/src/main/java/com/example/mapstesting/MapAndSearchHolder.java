@@ -1,10 +1,10 @@
 package com.example.mapstesting;
 
+import android.widget.Toast;
+import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
@@ -12,7 +12,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.google.maps.android.heatmaps.WeightedLatLng;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -71,8 +80,60 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions().position(new LatLng(49.2827, -123.1207)).title("Vancouoouuver"));
+        LatLng van = new LatLng(49.2827, -123.1207);
+        map.addMarker(new MarkerOptions().position(van).title("Vancouoouuver"));
+        map.moveCamera(CameraUpdateFactory.newLatLng(van));
+        List<WeightedLatLng> points = parseRestaurants(fromSomewhere);
+        HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
+                .weightedData(points)
+                .build();
+        TileOverlay heatmap = map.addTileOverlay(new
+                TileOverlayOptions().tileProvider(provider));
     }
+
+    private ArrayList<WeightedLatLng> parseRestaurants
+            (ArrayList<RestaurantDummy> restaurantList) {
+        ArrayList<WeightedLatLng> outputList = new ArrayList<>();
+        Date timeDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(timeDate);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+
+        for (RestaurantDummy rest : restaurantList) {
+            List<Integer> busyTimes = new ArrayList<>();
+            switch (dayOfWeek) {
+                case 1:
+                    busyTimes = rest.getPoptime_sun();
+                    break;
+                case 2:
+                    busyTimes = rest.getPoptime_mon();
+                    break;
+                case 3:
+                    busyTimes = rest.getPoptime_tue();
+                    break;
+                case 4:
+                    busyTimes = rest.getPoptime_wed();
+                    break;
+                case 5:
+                    busyTimes = rest.getPoptime_thr();
+                    break;
+                case 6:
+                    busyTimes = rest.getPoptime_fri();
+                    break;
+                case 7:
+                    busyTimes = rest.getPoptime_sat();
+                    break;
+                default:
+                    break;
+            }
+            int busyness = busyTimes.get(hour);
+            LatLng pos = new LatLng(rest.getLatitude(), rest.getLongitude());
+            outputList.add(new WeightedLatLng(pos, busyness));
+        }
+        return outputList;
+    }
+
 
     @Override
     protected void onPause() {
