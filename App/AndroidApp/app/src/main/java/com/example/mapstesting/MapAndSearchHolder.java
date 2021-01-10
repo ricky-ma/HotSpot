@@ -1,8 +1,10 @@
 package com.example.mapstesting;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.JsonReader;
+import android.view.View;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +40,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
     private MapView mMapView;
     private ArrayList<Restaurant> exList = new ArrayList<>();
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +87,10 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         mMapView.onStop();
     }
 
+    private TileOverlay heatmap;
     @Override
     public void onMapReady(GoogleMap map) {
+        this.map = map;
         LatLng van = new LatLng(49.2827, -123.1207);
         map.addMarker(new MarkerOptions().position(van).title("Vancouoouuver"));
         map.moveCamera(CameraUpdateFactory.newLatLng(van));
@@ -100,7 +105,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
                     .radius(50)
                     .weightedData(points)
                     .build();
-            TileOverlay heatmap = map.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
+            heatmap = map.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
         }
 
         // display all the restaurants
@@ -174,6 +179,39 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    public void openSettings(View view) {
+        Intent intent = new Intent(this, ExtraSettings.class);
+        startActivityForResult(intent, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                int day = data.getIntExtra("dayOfWeek", 1);
+                int hour = data.getIntExtra("hour", 1);
+                boolean avg = data.getBooleanExtra("avg", false);
+                resetMap(avg, day, hour);
+            }
+            if (resultCode == RESULT_CANCELED) {
+                return;
+            }
+        }
+    }
+
+    public void resetMap(boolean avg, int dayOfWeek, int hour) {
+        if (heatmap != null) {
+            heatmap.remove();
+        }
+        List<WeightedLatLng> points = parseRestaurants(exList, avg, dayOfWeek, hour);
+        if (!points.isEmpty()) {
+            HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
+                    .radius(50)
+                    .weightedData(points)
+                    .build();
+            heatmap = map.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
+        }
     }
 
     private class DatabaseConnectionHandler extends AsyncTask<Void, Void, Void> {
