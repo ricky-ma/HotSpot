@@ -48,7 +48,7 @@ public class Page2List extends AppCompatActivity {
      */
     public void infoRestaurant(Restaurant chosen){
         Intent intent = new Intent(Page2List.this, Page3Info.class);
-        intent.putExtra("Name", chosen.getName());
+        intent.putExtra("name", chosen.getName());
         intent.putExtra("curr_pop", chosen.getCurrent_popularity());
         intent.putExtra("rating", chosen.getRating());
         intent.putExtra("address", chosen.getAddress());
