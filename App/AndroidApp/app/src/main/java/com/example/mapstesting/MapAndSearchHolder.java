@@ -89,10 +89,15 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         LatLng van = new LatLng(49.2827, -123.1207);
         map.addMarker(new MarkerOptions().position(van).title("Vancouoouuver"));
         map.moveCamera(CameraUpdateFactory.newLatLng(van));
-        List<WeightedLatLng> points = parseRestaurants(exList);
+        /****
+        add user input to toggle between live view and average view
+         if live, just set average parameter to "false"
+         otherwise, set average to true, get dayOfWeek and hour from user to pass in
+        ****/ 
+        List<WeightedLatLng> points = parseRestaurants(exList, false, 0, 0);
         if (!points.isEmpty()) {
             HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
-                    .radius(30)
+                    .radius(50)
                     .weightedData(points)
                     .build();
             TileOverlay heatmap = map.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
@@ -100,51 +105,56 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
 
         // display all the restaurants
         for (Restaurant r : exList) {
-            LatLng point = new LatLng(r.getLat(), r.getLng());
-            map.addMarker(new MarkerOptions().position(point).title(r.getName()));
+            if (r.getCurrent_popularity() > 75) {
+                LatLng point = new LatLng(r.getLat(), r.getLng());
+                map.addMarker(new MarkerOptions().position(point).title(r.getName()));
+            }
         }
     }
 
-    private ArrayList<WeightedLatLng> parseRestaurants (List<Restaurant> restaurantList) {
+    private ArrayList<WeightedLatLng> parseRestaurants (List<Restaurant> restaurantList,
+                                                        boolean average, int dayOfWeek, int hour) {
         ArrayList<WeightedLatLng> outputList = new ArrayList<>();
-        Date timeDate = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(timeDate);
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-
-        for (Restaurant rest : restaurantList) {
-            List<Integer> busyTimes = new ArrayList<>();
-            switch (dayOfWeek) {
-                case 1:
-                    busyTimes = rest.getPoptime_sun();
-                    break;
-                case 2:
-                    busyTimes = rest.getPoptime_mon();
-                    break;
-                case 3:
-                    busyTimes = rest.getPoptime_tue();
-                    break;
-                case 4:
-                    busyTimes = rest.getPoptime_wed();
-                    break;
-                case 5:
-                    busyTimes = rest.getPoptime_thr();
-                    break;
-                case 6:
-                    busyTimes = rest.getPoptime_fri();
-                    break;
-                case 7:
-                    busyTimes = rest.getPoptime_sat();
-                    break;
-                default:
-                    break;
+        if (average) {
+            for (Restaurant rest : restaurantList) {
+                List<Integer> busyTimes = new ArrayList<>();
+                switch (dayOfWeek) {
+                    case 1:
+                        busyTimes = rest.getPoptime_sun();
+                        break;
+                    case 2:
+                        busyTimes = rest.getPoptime_mon();
+                        break;
+                    case 3:
+                        busyTimes = rest.getPoptime_tue();
+                        break;
+                    case 4:
+                        busyTimes = rest.getPoptime_wed();
+                        break;
+                    case 5:
+                        busyTimes = rest.getPoptime_thr();
+                        break;
+                    case 6:
+                        busyTimes = rest.getPoptime_fri();
+                        break;
+                    case 7:
+                        busyTimes = rest.getPoptime_sat();
+                        break;
+                    default:
+                        break;
+                }
+                int busyness = busyTimes.get(hour);
+                LatLng pos = new LatLng(rest.getLat(), rest.getLng());
+                outputList.add(new WeightedLatLng(pos, busyness));
             }
-            int busyness = busyTimes.get(hour);
-            LatLng pos = new LatLng(rest.getLat(), rest.getLng());
-            outputList.add(new WeightedLatLng(pos, busyness));
+            return outputList;
+        } else {
+            for (Restaurant rest : restaurantList) {
+                LatLng pos = new LatLng(rest.getLat(), rest.getLng());
+                outputList.add(new WeightedLatLng(pos, rest.getCurrent_popularity()));
+            }
+            return outputList;
         }
-        return outputList;
     }
 
 
