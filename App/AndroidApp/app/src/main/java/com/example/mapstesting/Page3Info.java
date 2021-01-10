@@ -22,7 +22,7 @@ public class Page3Info extends AppCompatActivity {
         ImageView ratingImage = findViewById(R.id.imageView_pos_stars);
 
         //display number of stars for restaurant
-        int rating = Math.round(extras.getInt("rating"));
+        int rating = Math.toIntExact(Math.round(extras.getDouble("rating")) / 20);
         switch (rating) {
             case 0:
                  ratingImage.setImageResource(R.drawable.zero_stars);

@@ -35,6 +35,7 @@ public class Page2List extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page2);
 
+        //creates a new button for each restaurant nearby
         //TODO: have restList contain Restaurant info from API
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -74,6 +75,8 @@ public class Page2List extends AppCompatActivity {
             ArrayList<Restaurant> displayRestaurants = new ArrayList<>();
             LinearLayout mainLayout = findViewById(R.id.ButtonLayout);
             displayRestaurants = MapAndSearchHolder.exList;
+            // TODO: BUG, UNCOMMENT TO MATCH QUERY RESULTS WITH POPULAR TIMES DATA
+            // PROBLEM: NOT ENOUGH POPULAR TIMES DATA, RESULTS DON'T MATCH
 //            for (Restaurant r1 : MapAndSearchHolder.exList) {
 //                for (Restaurant r2 : resultList) {
 //                    if (r1.getId().equals(r2.getId())) {
