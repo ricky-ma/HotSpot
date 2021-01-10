@@ -47,6 +47,8 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
+
+        /*Just making test restaurants*/
         List<Integer> busyT2 = new ArrayList<>();
         List<Integer> busyT = new ArrayList<>();
         busyT.add(5); busyT.add(1); busyT.add(4); busyT.add(6); busyT.add(18);
@@ -67,6 +69,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
                 types, 49.285298, -123.113889, 4, 3,
                 4, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2);
         exList.add(rest1); exList.add(rest2);
+        /*done making test restaurants*/
     }
 
     @Override
