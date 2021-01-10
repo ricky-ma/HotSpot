@@ -29,8 +29,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -38,8 +36,9 @@ import static java.lang.Integer.parseInt;
 
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
+    public static String query;
     private MapView mMapView;
-    private static String GOOGLE_API_KEY = "AIzaSyCHDoAJTYRv9yPKmuI_FVNlPZBS5hPXFEU";
+    private static final String GOOGLE_API_KEY = "AIzaSyCHDoAJTYRv9yPKmuI_FVNlPZBS5hPXFEU";
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static ArrayList<Restaurant> exList = new ArrayList<>();
     public static final String EXTRA_MESSAGE = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=";
@@ -66,7 +65,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         Intent intent = new Intent(this, Page2List.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, EXTRA_MESSAGE + message + "&inputtype=textquery&fields=place_id&locationbias=circle:2000@49.2827,-123.1207&key=" + GOOGLE_API_KEY);
+        intent.putExtra(EXTRA_MESSAGE, EXTRA_MESSAGE + message + "&inputtype=textquery&fields=place_id&locationbias=circle:20000@49.2827,-123.1207&key=" + GOOGLE_API_KEY);
         startActivity(intent);
     }
 
@@ -162,14 +161,13 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
                 LatLng pos = new LatLng(rest.getLat(), rest.getLng());
                 outputList.add(new WeightedLatLng(pos, busyness));
             }
-            return outputList;
         } else {
             for (Restaurant rest : restaurantList) {
                 LatLng pos = new LatLng(rest.getLat(), rest.getLng());
                 outputList.add(new WeightedLatLng(pos, rest.getCurrent_popularity()));
             }
-            return outputList;
         }
+        return outputList;
     }
 
 
