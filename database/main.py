@@ -4,12 +4,12 @@ import json
 import datetime
 import logging
 from string import Template
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import populartimes
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 
-load_dotenv("../.env")
+# load_dotenv("../.env")
 places_api_key = os.getenv("PLACES_API_KEY")
 radar_test_api_key = os.getenv("RADAR_TEST_PUBLISHABLE")
 astradb_keyspace = os.getenv("ASTRA_DB_KEYSPACE")
