@@ -71,7 +71,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        map.addMarker(new MarkerOptions().position(new LatLng(49.2827, -123.1207)).title("Vancouoouuver"));
     }
 
     @Override
