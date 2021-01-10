@@ -1,7 +1,5 @@
 package com.example.mapstesting;
 
-import android.widget.Toast;
-import androidx.annotation.RawRes;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.gms.maps.*;
@@ -9,8 +7,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.os.Bundle;
 
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -26,7 +22,7 @@ import java.util.List;
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mMapView;
-    private List<RestaurantDummy> exList = new ArrayList<>();
+    private List<Restaurant> exList = new ArrayList<>();
 
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -62,10 +58,10 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         busyT2.add(2); busyT2.add(3); busyT2.add(12); busyT2.add(10); busyT2.add(14); busyT2.add(1);
         List<String> types = new ArrayList<>();
         types.add("pizza");
-        RestaurantDummy rest1 = new RestaurantDummy("1", "A", "abc",
+        Restaurant rest1 = new Restaurant("1", "A", "abc",
                 types, 49.285931, -123.114924, 4, 3,
                 4, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2);
-        RestaurantDummy rest2 = new RestaurantDummy("1", "A", "abc",
+        Restaurant rest2 = new Restaurant("1", "A", "abc",
                 types, 49.285298, -123.113889, 4, 3,
                 4, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2);
         exList.add(rest1); exList.add(rest2);
@@ -110,7 +106,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         map.moveCamera(CameraUpdateFactory.newLatLng(van));
         List<WeightedLatLng> points = parseRestaurants(exList);
         HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
-                .radius(50)
+                .radius(30)
                 .weightedData(points)
                 .build();
         TileOverlay heatmap = map.addTileOverlay(new
@@ -118,7 +114,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
     }
 
     private ArrayList<WeightedLatLng> parseRestaurants
-            (List<RestaurantDummy> restaurantList) {
+            (List<Restaurant> restaurantList) {
         ArrayList<WeightedLatLng> outputList = new ArrayList<>();
         Date timeDate = new Date();
         Calendar c = Calendar.getInstance();
@@ -126,7 +122,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
-        for (RestaurantDummy rest : restaurantList) {
+        for (Restaurant rest : restaurantList) {
             List<Integer> busyTimes = new ArrayList<>();
             switch (dayOfWeek) {
                 case 1:
