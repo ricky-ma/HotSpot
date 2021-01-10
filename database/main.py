@@ -6,7 +6,7 @@ import populartimes
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 
-load_dotenv(".env")
+load_dotenv("../.env")
 places_api_key = os.getenv("PLACES_API_KEY")
 radar_test_api_key = os.getenv("RADAR_TEST_PUBLISHABLE")
 astradb_keyspace = os.getenv("ASTRA_DB_KEYSPACE")
@@ -34,7 +34,11 @@ def google_query_places(query, inputtype="textquery", fields="place_id", coords=
         json.dump(response, json_file)
 
 
-def update():
+if __name__ == "__main__":
+    # query = "restaurant"
+    # fields = "place_id,photos,formatted_address,name,opening_hours,rating"
+    # google_query_places(query=query, fields=fields)
+
     response = populartimes.get(
         api_key=places_api_key,
         types=["restaurant"],
@@ -62,13 +66,3 @@ def update():
         print(place)
         operation = "INSERT INTO nwhax_data.places JSON \'{}\';".format(place)
         session.execute(operation)
-
-
-if __name__ == "__main__":
-    # query = "restaurant"
-    # fields = "place_id,photos,formatted_address,name,opening_hours,rating"
-    # google_query_places(query=query, fields=fields)
-
-    update()
-
-
