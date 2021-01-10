@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Page2List extends AppCompatActivity {
 
@@ -47,7 +48,7 @@ public class Page2List extends AppCompatActivity {
     /**
      * moves to info page (page 3)
      */
-    public void infoRestaurant(Restaurant chosen){
+    public void infoRestaurant(Restaurant chosen) {
         Intent intent = new Intent(Page2List.this, Page3Info.class);
         intent.putExtra("name", chosen.getName());
         intent.putExtra("curr_pop", chosen.getCurrent_popularity());
@@ -67,6 +68,7 @@ public class Page2List extends AppCompatActivity {
             resultList = processJson(jsonResults);
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             System.out.println("finished loading data");
@@ -87,7 +89,10 @@ public class Page2List extends AppCompatActivity {
 
             List<Integer> buttonList = new ArrayList<>();
             HashMap<Integer, Restaurant> restaurantHashMap = new HashMap<>();
-            for (Restaurant r : displayRestaurants) {
+            for (Restaurant r : displayRestaurants.stream().filter(
+                x -> x.getName().toLowerCase().contains(MapAndSearchHolder.query.toLowerCase()))
+                .collect(
+                    Collectors.toList())) {
                 Button newButton = new Button(Page2List.this);
                 newButton.setText(r.getName());
                 newButton.setId(r.hashCode());
@@ -96,14 +101,14 @@ public class Page2List extends AppCompatActivity {
                 mainLayout.addView(newButton);
             }
 
-            if(displayRestaurants.isEmpty()){
+            if (displayRestaurants.isEmpty()) {
                 TextView error = new TextView(Page2List.this);
                 error.setGravity(Gravity.CENTER_VERTICAL);
                 error.setText("No Restaurants were Found");
                 mainLayout.addView(error);
             }
 
-            for (Integer b : buttonList){
+            for (Integer b : buttonList) {
                 button = findViewById(b);
                 Restaurant chosen = restaurantHashMap.get(b);
                 button.setOnClickListener(new View.OnClickListener() {
