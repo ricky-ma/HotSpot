@@ -109,7 +109,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
          if live, just set average parameter to "false"
          otherwise, set average to true, get dayOfWeek and hour from user to pass in
         ****/
-        List<WeightedLatLng> points = parseRestaurants(exList, false, 0, 0);
+        List<WeightedLatLng> points = parseRestaurants(exList, true, 2, 17);
         if (!points.isEmpty()) {
             HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
                     .radius(50)
@@ -120,7 +120,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
 
         // display all the restaurants
         for (Restaurant r : exList) {
-            if (r.getCurrent_popularity() > 75) {
+            if (true) {
                 LatLng point = new LatLng(r.getLat(), r.getLng());
                 map.addMarker(new MarkerOptions().position(point).title(r.getName()));
             }
