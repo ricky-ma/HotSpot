@@ -39,6 +39,7 @@ import static java.lang.Integer.parseInt;
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mMapView;
+    public static String query = "";
     private static String GOOGLE_API_KEY = "AIzaSyCHDoAJTYRv9yPKmuI_FVNlPZBS5hPXFEU";
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static ArrayList<Restaurant> exList = new ArrayList<>();
@@ -66,6 +67,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         Intent intent = new Intent(this, Page2List.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
+        query = message;
         intent.putExtra(EXTRA_MESSAGE, EXTRA_MESSAGE + message + "&inputtype=textquery&fields=place_id&locationbias=circle:2000@49.2827,-123.1207&key=" + GOOGLE_API_KEY);
         startActivity(intent);
     }

@@ -21,11 +21,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Page2List extends AppCompatActivity {
 
     private Button button;
     private String message = "";
+    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class Page2List extends AppCompatActivity {
     /**
      * moves to info page (page 3)
      */
-    public void infoRestaurant(){
+    public void infoRestaurant() {
         Intent intent = new Intent(this, Page3Info.class);
         startActivity(intent);
     }
@@ -60,6 +62,7 @@ public class Page2List extends AppCompatActivity {
             resultList = processJson(jsonResults);
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             System.out.println("finished loading data");
@@ -75,7 +78,10 @@ public class Page2List extends AppCompatActivity {
 //                }
 //            }
             List<Integer> buttonList = new ArrayList<>();
-            for (Restaurant r : displayRestaurants) {
+            for (Restaurant r : displayRestaurants.stream().filter(
+                x -> x.getName().toLowerCase().contains(MapAndSearchHolder.query.toLowerCase()))
+                .collect(
+                    Collectors.toList())) {
                 LinearLayout mainLayout = findViewById(R.id.ButtonLayout);
                 Button newButton = new Button(Page2List.this);
                 newButton.setText(r.getName());
@@ -84,7 +90,7 @@ public class Page2List extends AppCompatActivity {
                 mainLayout.addView(newButton);
             }
 
-            for (Integer b : buttonList){
+            for (Integer b : buttonList) {
                 button = findViewById(b);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
