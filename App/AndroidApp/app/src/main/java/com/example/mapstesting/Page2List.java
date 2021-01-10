@@ -21,12 +21,15 @@ public class Page2List extends AppCompatActivity {
         setContentView(R.layout.activity_page2);
 
         //creates a new button for each restaurant nearby
-        //TODO: have restList contain Restaurant info from API
 //        for (Restaurant r : restList){
 //            LinearLayout mainLayout = findViewById(R.id.ButtonLayout);
 //
 //            Button newButton = new Button(this);
-//            newButton.setText(r.getName + "   " + r.getPop);
+//            newButton.setId(i);
+//            buttonList.add(newButton.getId())
+
+              //NEED TO DO SOMETHING IF NAMES ARE TOO LONG
+//            newButton.setText(r.getName);
 //
 //            mainLayout.addView(newButton);
 //        }
