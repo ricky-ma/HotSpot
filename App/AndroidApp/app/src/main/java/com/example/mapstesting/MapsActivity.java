@@ -11,9 +11,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -27,11 +24,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
-        DatabaseConnectionHandler dbhandler = new DatabaseConnectionHandler();
-        ArrayList<Restaurant> restaurants = dbhandler.getRestaurants();
     }
 
 
@@ -53,8 +46,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in " + "Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in " +
+                "Sydney"));
+        LatLng van = new LatLng(49, -123);
+        mMap.addMarker(new MarkerOptions().position(van).title("Marker in " +
+                "van"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(van));
     }
 
     public void sendMessage(View view) {
