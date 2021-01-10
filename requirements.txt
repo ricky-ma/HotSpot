@@ -7,7 +7,6 @@ geomet==0.2.1.post1
 geopy==2.1.0
 idna==2.10
 pathlib2==2.3.5
-git+https://github.com/m-wrzr/populartimes
 requests==2.25.1
 six==1.15.0
 urllib3==1.26.2

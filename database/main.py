@@ -97,3 +97,6 @@ if __name__ == "__main__":
     # fields = "place_id,photos,formatted_address,name,opening_hours,rating"
     # google_query_places(query=query, fields=fields)
     main('data', 'context')
+
+    # uncomment to run locally
+    # execute_update()
