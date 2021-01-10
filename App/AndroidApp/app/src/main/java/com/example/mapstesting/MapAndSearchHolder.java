@@ -26,6 +26,8 @@ import java.util.List;
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mMapView;
+    private List<RestaurantDummy> exList = new ArrayList<>();
+
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
@@ -45,6 +47,26 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
+        List<Integer> busyT2 = new ArrayList<>();
+        List<Integer> busyT = new ArrayList<>();
+        busyT.add(5); busyT.add(1); busyT.add(4); busyT.add(6); busyT.add(18);
+        busyT.add(25);busyT.add(5); busyT.add(1); busyT.add(4); busyT.add(6); busyT.add(18);
+        busyT.add(25);busyT.add(5); busyT.add(1); busyT.add(4); busyT.add(6); busyT.add(18);
+        busyT.add(25);busyT.add(5); busyT.add(1); busyT.add(4); busyT.add(6); busyT.add(18);
+        busyT.add(25);
+        busyT2.add(2); busyT2.add(3); busyT2.add(12); busyT2.add(10); busyT2.add(14); busyT2.add(1);
+        busyT2.add(2); busyT2.add(3); busyT2.add(12); busyT2.add(10); busyT2.add(14); busyT2.add(1);
+        busyT2.add(2); busyT2.add(3); busyT2.add(12); busyT2.add(10); busyT2.add(14); busyT2.add(1);
+        busyT2.add(2); busyT2.add(3); busyT2.add(12); busyT2.add(10); busyT2.add(14); busyT2.add(1);
+        List<String> types = new ArrayList<>();
+        types.add("pizza");
+        RestaurantDummy rest1 = new RestaurantDummy("1", "A", "abc",
+                types, 49.285931, -123.114924, 4, 3,
+                4, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2);
+        RestaurantDummy rest2 = new RestaurantDummy("1", "A", "abc",
+                types, 49.285298, -123.113889, 4, 3,
+                4, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2, busyT2);
+        exList.add(rest1); exList.add(rest2);
     }
 
     @Override
@@ -83,8 +105,9 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         LatLng van = new LatLng(49.2827, -123.1207);
         map.addMarker(new MarkerOptions().position(van).title("Vancouoouuver"));
         map.moveCamera(CameraUpdateFactory.newLatLng(van));
-        List<WeightedLatLng> points = parseRestaurants(fromSomewhere);
+        List<WeightedLatLng> points = parseRestaurants(exList);
         HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
+                .radius(50)
                 .weightedData(points)
                 .build();
         TileOverlay heatmap = map.addTileOverlay(new
@@ -92,7 +115,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
     }
 
     private ArrayList<WeightedLatLng> parseRestaurants
-            (ArrayList<RestaurantDummy> restaurantList) {
+            (List<RestaurantDummy> restaurantList) {
         ArrayList<WeightedLatLng> outputList = new ArrayList<>();
         Date timeDate = new Date();
         Calendar c = Calendar.getInstance();
