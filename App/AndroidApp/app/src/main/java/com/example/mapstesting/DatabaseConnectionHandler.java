@@ -30,8 +30,6 @@ public class DatabaseConnectionHandler {
                 .withKeyspace(KEYSPACE)
                 .build()) {
             connection = session;
-        } catch () {
-            System.out.println("An error occured");
         }
     }
 
@@ -44,19 +42,19 @@ public class DatabaseConnectionHandler {
                         row.getString("id"),
                         row.getString("name"),
                         row.getString("address"),
-                        row.getList("types"),
+                        row.getList("types", String.class),
                         row.getDouble("latitude"),
                         row.getDouble("longitude"),
                         row.getDouble("rating"),
                         row.getInt("rating_n"),
                         row.getInt("current_popularity"),
-                        row.getList("poptime_mon"),
-                        row.getList("poptime_tue"),
-                        row.getList("poptime_wed"),
-                        row.getList("poptime_thr"),
-                        row.getList("poptime_fri"),
-                        row.getList("poptime_sat"),
-                        row.getList("poptime_sun")
+                        row.getList("poptime_mon", Integer.class),
+                        row.getList("poptime_tue", Integer.class),
+                        row.getList("poptime_wed", Integer.class),
+                        row.getList("poptime_thr", Integer.class),
+                        row.getList("poptime_fri", Integer.class),
+                        row.getList("poptime_sat", Integer.class),
+                        row.getList("poptime_sun", Integer.class)
                 );
                 result.add(restaurant);
             }
