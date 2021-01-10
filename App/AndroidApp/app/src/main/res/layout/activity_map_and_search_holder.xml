@@ -6,26 +6,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapAndSearchHolder">
-    <com.google.android.gms.maps.MapView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:id="@+id/mapView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="1.0"/>
-    <TextView
-            android:text="@string/Letsgo"
-            android:layout_width="230dp"
-            android:layout_height="34dp" android:id="@+id/textView"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="24dp" android:layout_marginStart="24dp"/>
     <Button
             android:text="@string/buttonText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/editText"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/editText" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp" android:hint="@string/Letsgo"
+            android:background="#FFFFFF"
+            android:visibility="visible" tools:visibility="visible"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:id="@+id/map_container" app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="55dp">
+
+        <com.google.android.gms.maps.MapView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/mapView"
+        />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
