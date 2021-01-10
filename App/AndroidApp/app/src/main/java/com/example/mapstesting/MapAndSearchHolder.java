@@ -32,7 +32,7 @@ public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyC
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
-        mMapView = (MapView) findViewById(R.id.map);
+        mMapView = (MapView) findViewById(R.id.mapView);
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
