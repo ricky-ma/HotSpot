@@ -1,41 +1,38 @@
 package com.example.mapstesting;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Restaurant parent class
  */
 public class Restaurant {
-    private String id;
-    private String name;
-    private String address;
-    private List<String> types;
-    private double latitude;
-    private double longitude;
-    private double rating;
-    private int rating_n;
-    private int current_popularity;
-    private List<Integer> poptime_mon;
-    private List<Integer> poptime_tue;
-    private List<Integer> poptime_wed;
-    private List<Integer> poptime_thr;
-    private List<Integer> poptime_fri;
-    private List<Integer> poptime_sat;
-    private List<Integer> poptime_sun;
+    private final String id;
+    private final String name;
+    private final String address;
+    private final List<String> types;
+    private final Double lat;
+    private final Double lng;
+    private final Double rating;
+    private final Integer rating_n;
+    private final Integer current_popularity;
+    private final List<Integer> poptime_mon;
+    private final List<Integer> poptime_tue;
+    private final List<Integer> poptime_wed;
+    private final List<Integer> poptime_thr;
+    private final List<Integer> poptime_fri;
+    private final List<Integer> poptime_sat;
+    private final List<Integer> poptime_sun;
 
-    public Restaurant(String id, String name, String address, List<String> types, double latitude,
-                      double longitude, double rating, int rating_n, int current_popularity,
-                      List<Integer> poptime_mon, List<Integer> poptime_tue,
-                      List<Integer> poptime_wed, List<Integer> poptime_thr,
-                      List<Integer> poptime_fri, List<Integer> poptime_sat,
-                      List<Integer> poptime_sun) {
+    public Restaurant(String id, String name, String address, List<String> types, Double lat, Double lng,
+                      Double rating, Integer rating_n, Integer current_popularity, List<Integer> poptime_mon,
+                      List<Integer> poptime_tue, List<Integer> poptime_wed, List<Integer> poptime_thr,
+                      List<Integer> poptime_fri, List<Integer> poptime_sat, List<Integer> poptime_sun) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.types = types;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.lat = lat;
+        this.lng = lng;
         this.rating = rating;
         this.rating_n = rating_n;
         this.current_popularity = current_popularity;
@@ -52,63 +49,64 @@ public class Restaurant {
         return id;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
     }
 
-    public String getAddress() {
+    public String getAddress(){
         return address;
     }
 
+
     public List<String> getTypes() {
-        return new ArrayList<>(types);
+        return types;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public Double getLat() {
+        return lat;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public Double getLng() {
+        return lng;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public int getRating_n() {
+    public Integer getRating_n() {
         return rating_n;
     }
 
-    public int getCurrent_popularity() {
+    public Integer getCurrent_popularity() {
         return current_popularity;
     }
 
     public List<Integer> getPoptime_mon() {
-        return new ArrayList<>(poptime_mon);
+        return poptime_mon;
     }
 
     public List<Integer> getPoptime_tue() {
-        return new ArrayList<>(poptime_tue);
+        return poptime_tue;
     }
 
     public List<Integer> getPoptime_wed() {
-        return new ArrayList<>(poptime_wed);
+        return poptime_wed;
     }
 
     public List<Integer> getPoptime_thr() {
-        return new ArrayList<>(poptime_thr);
+        return poptime_thr;
     }
 
     public List<Integer> getPoptime_fri() {
-        return new ArrayList<>(poptime_fri);
+        return poptime_fri;
     }
 
     public List<Integer> getPoptime_sat() {
-        return new ArrayList<>(poptime_sat);
+        return poptime_sat;
     }
 
     public List<Integer> getPoptime_sun() {
-        return new ArrayList<>(poptime_sun);
+        return poptime_sun;
     }
 }
