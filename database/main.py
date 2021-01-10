@@ -1,6 +1,9 @@
 import os
 import requests
 import json
+import datetime
+import logging
+from string import Template
 from dotenv import load_dotenv
 import populartimes
 from cassandra.cluster import Cluster
@@ -34,11 +37,7 @@ def google_query_places(query, inputtype="textquery", fields="place_id", coords=
         json.dump(response, json_file)
 
 
-if __name__ == "__main__":
-    # query = "restaurant"
-    # fields = "place_id,photos,formatted_address,name,opening_hours,rating"
-    # google_query_places(query=query, fields=fields)
-
+def execute_update():
     response = populartimes.get(
         api_key=places_api_key,
         types=["restaurant"],
@@ -66,3 +65,35 @@ if __name__ == "__main__":
         print(place)
         operation = "INSERT INTO nwhax_data.places JSON \'{}\';".format(place)
         session.execute(operation)
+
+
+def main(data, context):
+    """Triggered from a message on a Cloud Pub/Sub topic.
+    Args:
+        data (dict): Event payload.
+        context (google.cloud.functions.Context): Metadata for the event.
+    """
+
+    try:
+        current_time = datetime.datetime.utcnow()
+        log_message = Template('Cloud Function was triggered on $time')
+        logging.info(log_message.safe_substitute(time=current_time))
+
+        try:
+            execute_update()
+
+        except Exception as error:
+            log_message = Template('Query failed due to '
+                                   '$message.')
+            logging.error(log_message.safe_substitute(message=error))
+
+    except Exception as error:
+        log_message = Template('$error').substitute(error=error)
+        logging.error(log_message)
+
+
+if __name__ == "__main__":
+    # query = "restaurant"
+    # fields = "place_id,photos,formatted_address,name,opening_hours,rating"
+    # google_query_places(query=query, fields=fields)
+    main('data', 'context')
