@@ -24,7 +24,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Page2List extends AppCompatActivity {
 
@@ -36,7 +35,6 @@ public class Page2List extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page2);
 
-        //creates a new button for each restaurant nearby
         //TODO: have restList contain Restaurant info from API
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -48,7 +46,7 @@ public class Page2List extends AppCompatActivity {
     /**
      * moves to info page (page 3)
      */
-    public void infoRestaurant(Restaurant chosen) {
+    public void infoRestaurant(Restaurant chosen){
         Intent intent = new Intent(Page2List.this, Page3Info.class);
         intent.putExtra("name", chosen.getName());
         intent.putExtra("curr_pop", chosen.getCurrent_popularity());
@@ -68,7 +66,6 @@ public class Page2List extends AppCompatActivity {
             resultList = processJson(jsonResults);
             return null;
         }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             System.out.println("finished loading data");
@@ -77,8 +74,6 @@ public class Page2List extends AppCompatActivity {
             ArrayList<Restaurant> displayRestaurants = new ArrayList<>();
             LinearLayout mainLayout = findViewById(R.id.ButtonLayout);
             displayRestaurants = MapAndSearchHolder.exList;
-            // TODO: BUG, UNCOMMENT TO MATCH QUERY RESULTS WITH POPULAR TIMES DATA
-            // PROBLEM: NOT ENOUGH POPULAR TIMES DATA, RESULTS DON'T MATCH
 //            for (Restaurant r1 : MapAndSearchHolder.exList) {
 //                for (Restaurant r2 : resultList) {
 //                    if (r1.getId().equals(r2.getId())) {
@@ -89,10 +84,7 @@ public class Page2List extends AppCompatActivity {
 
             List<Integer> buttonList = new ArrayList<>();
             HashMap<Integer, Restaurant> restaurantHashMap = new HashMap<>();
-            for (Restaurant r : displayRestaurants.stream().filter(
-                x -> x.getName().toLowerCase().contains(MapAndSearchHolder.query.toLowerCase()))
-                .collect(
-                    Collectors.toList())) {
+            for (Restaurant r : displayRestaurants) {
                 Button newButton = new Button(Page2List.this);
                 newButton.setText(r.getName());
                 newButton.setId(r.hashCode());
@@ -101,14 +93,14 @@ public class Page2List extends AppCompatActivity {
                 mainLayout.addView(newButton);
             }
 
-            if (displayRestaurants.isEmpty()) {
+            if(displayRestaurants.isEmpty()){
                 TextView error = new TextView(Page2List.this);
                 error.setGravity(Gravity.CENTER_VERTICAL);
                 error.setText("No Restaurants were Found");
                 mainLayout.addView(error);
             }
 
-            for (Integer b : buttonList) {
+            for (Integer b : buttonList){
                 button = findViewById(b);
                 Restaurant chosen = restaurantHashMap.get(b);
                 button.setOnClickListener(new View.OnClickListener() {

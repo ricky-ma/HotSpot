@@ -22,20 +22,26 @@ public class Page3Info extends AppCompatActivity {
         ImageView ratingImage = findViewById(R.id.imageView_pos_stars);
 
         //display number of stars for restaurant
-        int rating = Math.toIntExact(Math.round(extras.getDouble("rating")) / 20);
+        int rating = (int) Math.round(extras.getDouble("rating"));
         switch (rating) {
             case 0:
                  ratingImage.setImageResource(R.drawable.zero_stars);
+                 break;
             case 1:
                  ratingImage.setImageResource(R.drawable.one_star);
+                 break;
             case 2:
                  ratingImage.setImageResource(R.drawable.two_stars);
+                 break;
             case 3:
                  ratingImage.setImageResource(R.drawable.three_stars);
+                 break;
             case 4:
                  ratingImage.setImageResource(R.drawable.four_stars);
+                break;
             case 5:
                  ratingImage.setImageResource(R.drawable.five_stars);
+                break;
             default:
                  ratingImage.setImageResource(R.drawable.five_stars);
         }
@@ -44,16 +50,22 @@ public class Page3Info extends AppCompatActivity {
         switch (currPop) {
             case 0:
                 populationImage.setImageResource(R.drawable.safe_guy);
+                break;
             case 1:
                 populationImage.setImageResource(R.drawable.lonely_guy);
+                break;
             case 2:
                 populationImage.setImageResource(R.drawable.two_guys);
+                break;
             case 3:
                 populationImage.setImageResource(R.drawable.three_guys);
+                break;
             case 4:
                 populationImage.setImageResource(R.drawable.four_guys);
+                break;
             case 5:
                 populationImage.setImageResource(R.drawable.five_guys);
+                break;
             default:
                 populationImage.setImageResource(R.drawable.five_guys);
         }

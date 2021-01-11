@@ -36,8 +36,9 @@ import static java.lang.Integer.parseInt;
 
 public class MapAndSearchHolder extends AppCompatActivity implements OnMapReadyCallback {
 
+    public static String query;
     private MapView mMapView;
-    private static final String GOOGLE_API_KEY = "AIzaSyCHDoAJTYRv9yPKmuI_FVNlPZBS5hPXFEU";
+    private static final String GOOGLE_API_KEY = "YOUR_API_KEY";
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static ArrayList<Restaurant> exList = new ArrayList<>();
     public static final String EXTRA_MESSAGE = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=";
