@@ -1,4 +1,4 @@
-# Hotspot
+# HotSpot :fire::round_pushpin:
 *Easily practice social distancing by seeing the busiest crowds in town - and avoiding them*
 
 ## Inspiration
